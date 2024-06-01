@@ -15,7 +15,7 @@ function About() {
                     <span className="font-bold">AssetTrackPro</span> is an
                     innovative web application designed to simplify and
                     streamline the management of your companys assets. Whether
-                    you're handling returnable assets like laptops, keyboards,
+                    youre handling returnable assets like laptops, keyboards,
                     and cell phones, or non-returnable items like pens, paper,
                     and diaries, AssetWise offers a comprehensive solution to
                     keep everything organized and under control.

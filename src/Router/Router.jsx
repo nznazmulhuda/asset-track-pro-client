@@ -17,6 +17,8 @@ import {
     Profile,
     RequestForAsset,
 } from "../Pages";
+import Employee from "./Employee";
+import Manager from "./Manager";
 
 const Router = createBrowserRouter([
     {
@@ -42,15 +44,27 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/myAssets",
-                element: <MyAssets />,
+                element: (
+                    <Employee>
+                        <MyAssets />
+                    </Employee>
+                ),
             },
             {
                 path: "/myTeam",
-                element: <MyTeam />,
+                element: (
+                    <Employee>
+                        <MyTeam />
+                    </Employee>
+                ),
             },
             {
                 path: "/requestForAsset",
-                element: <RequestForAsset />,
+                element: (
+                    <Employee>
+                        <RequestForAsset />
+                    </Employee>
+                ),
             },
             {
                 path: "/profile",
@@ -58,27 +72,51 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/assetList",
-                element: <AssetsList />,
+                element: (
+                    <Manager>
+                        <AssetsList />
+                    </Manager>
+                ),
             },
             {
                 path: "/addAnAsset",
-                element: <AddAnAsset />,
+                element: (
+                    <Manager>
+                        <AddAnAsset />
+                    </Manager>
+                ),
             },
             {
                 path: "/allRequests",
-                element: <AllRequests />,
+                element: (
+                    <Manager>
+                        <AllRequests />
+                    </Manager>
+                ),
             },
             {
                 path: "/customRequestList",
-                element: <CustomRequestList />,
+                element: (
+                    <Manager>
+                        <CustomRequestList />
+                    </Manager>
+                ),
             },
             {
                 path: "/myEmployeeList",
-                element: <MyEmployeeList />,
+                element: (
+                    <Manager>
+                        <MyEmployeeList />
+                    </Manager>
+                ),
             },
             {
                 path: "/addAnEmployee",
-                element: <AddAnEmployee />,
+                element: (
+                    <Manager>
+                        <AddAnEmployee />
+                    </Manager>
+                ),
             },
         ],
     },

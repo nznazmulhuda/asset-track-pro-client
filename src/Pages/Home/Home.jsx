@@ -5,6 +5,7 @@ import {
     About,
     Banner,
     Calender,
+    Message,
     MonthlyRequest,
     Payment,
     PendingRequests,
@@ -26,6 +27,7 @@ function Home() {
     if (role === "employee") {
         section = (
             <>
+                <Message />
                 <PendingRequests />
                 <MonthlyRequest />
                 <Calender />

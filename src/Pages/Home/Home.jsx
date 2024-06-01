@@ -5,10 +5,14 @@ import {
     About,
     Banner,
     Calender,
+    LimitedStock,
     Message,
     MonthlyRequest,
     Payment,
+    PendingRequestHR,
     PendingRequests,
+    Pie,
+    TopMostRequest,
 } from "../../Components/Home";
 
 function Home() {
@@ -36,9 +40,11 @@ function Home() {
     } else if (role === "hrManager") {
         section = (
             <>
-                <Banner />
-                <About />
-                <Payment />
+                <PendingRequestHR />
+                <TopMostRequest />
+                <LimitedStock />
+                <Pie />
+                <Calender />
             </>
         );
     } else {

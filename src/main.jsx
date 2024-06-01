@@ -9,7 +9,7 @@ import AuthProvider from "./Provider/AuthProvider/AuthProvider";
 import QueryProvider from "./Provider/QueryProvider/QueryProvider";
 import UserProvider from "./Provider/UserProvider/UserProvider";
 
-axios.defaults.baseURL = import.meta.env.BASE_URL;
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")).render(

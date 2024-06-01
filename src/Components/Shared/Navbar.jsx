@@ -20,12 +20,12 @@ import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 const drawerWidth = 240;
 
 function Navbar(props) {
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { user } = React.useContext(UserContext);
-    const { isLogin } = React.useContext(AuthContext);
-    const logo = "logo";
     let navItems;
+    const { window } = props;
+    const { user } = React.useContext(UserContext);
+    const { isLogin, logout } = React.useContext(AuthContext);
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const logo = "logo";
 
     if (user.role === "employee") {
         navItems = [
@@ -84,6 +84,10 @@ function Navbar(props) {
             </List>
         </Box>
     );
+
+    const handleLogout = () => {
+        logout();
+    };
 
     const container =
         window !== undefined ? () => window().document.body : undefined;
@@ -156,13 +160,16 @@ function Navbar(props) {
                                     {user.displayName}
                                 </h1>
 
-                                <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-white font-bold md:ml-5 text-lg">
+                                <button
+                                    onClick={handleLogout}
+                                    className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-secondary font-bold md:ml-5 text-lg"
+                                >
                                     Logout
                                 </button>
                             </div>
                         ) : (
                             <Link to={"/login"}>
-                                <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-white font-bold md:ml-5 text-lg">
+                                <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-secondary font-bold md:ml-5 text-lg">
                                     Login
                                 </button>
                             </Link>
@@ -202,14 +209,17 @@ function Navbar(props) {
                                     alt=""
                                 />
 
-                                <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-white font-bold md:ml-5 text-lg">
+                                <button
+                                    onClick={handleLogout}
+                                    className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-secondary font-bold md:ml-5 text-lg"
+                                >
                                     Logout
                                 </button>
                             </div>
                         </div>
                     ) : (
                         <Link to={"/login"}>
-                            <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-white font-bold md:ml-5 text-lg">
+                            <button className="border py-2 px-4 rounded-lg transition-all ease-in hover:text-[#9826AC] hover:bg-secondary font-bold md:ml-5 text-lg">
                                 Login
                             </button>
                         </Link>

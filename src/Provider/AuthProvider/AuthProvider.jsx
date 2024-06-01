@@ -75,6 +75,7 @@ function AuthProvider({ children }) {
         isLogin,
         isLoading,
         role,
+        setRole,
         login,
         register,
         googleLogin,

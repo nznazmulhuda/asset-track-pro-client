@@ -20,7 +20,6 @@ function JoinAsEmployee() {
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        data.role = "employee";
         const email = data.email;
         const role = "employee";
         const user = { email, role };
@@ -104,6 +103,7 @@ function JoinAsEmployee() {
                     <h1 className="mb-10 text-xl md:text-2xl lg:text-3xl font-bold">
                         Join As Employee
                     </h1>
+
                     <div className="mb-3 md:mb-7 flex items-center justify-center">
                         <input
                             type="text"

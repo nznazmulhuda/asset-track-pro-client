@@ -1,5 +1,11 @@
 import { useContext } from "react";
-import { About, Banner, Payment, PendingRequests } from "../../Components/Home";
+import {
+    About,
+    Banner,
+    MonthlyRequest,
+    Payment,
+    PendingRequests,
+} from "../../Components/Home";
 import { UserContext } from "../../Provider/UserProvider/UserProvider";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 
@@ -20,6 +26,7 @@ function Home() {
         section = (
             <>
                 <PendingRequests />
+                <MonthlyRequest />
             </>
         );
     } else if (role === "hrManager") {
@@ -41,7 +48,7 @@ function Home() {
     }
     return (
         <>
-            <div>{section}</div>
+            <div className="container mx-auto">{section}</div>
         </>
     );
 }

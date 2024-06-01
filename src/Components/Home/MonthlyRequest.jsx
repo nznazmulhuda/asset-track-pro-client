@@ -13,14 +13,14 @@ const rows = [
     createData("Jkl Company", "Pending"),
     createData("MNO Company", "Approved"),
 ];
-function PendingRequests() {
+function MonthlyRequest() {
     const stripe = "odd";
     return (
         <>
             <div>
                 <Heading
-                    title={"Pending Request"}
-                    subTitle={"My all pending request"}
+                    title={"Monthly Requests"}
+                    subTitle={"My monthly requests"}
                 />
 
                 <Sheet>
@@ -46,4 +46,4 @@ function PendingRequests() {
     );
 }
 
-export default PendingRequests;
+export default MonthlyRequest;

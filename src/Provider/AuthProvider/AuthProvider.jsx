@@ -4,6 +4,7 @@ import { auth } from "../../Firebase/Firebase.config";
 import {
     GithubAuthProvider,
     GoogleAuthProvider,
+    createUserWithEmailAndPassword,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     signInWithPopup,
@@ -18,7 +19,7 @@ function AuthProvider({ children }) {
 
     // Register with Email and Password
     const register = (email, password) => {
-        return auth.createUserWithEmailAndPassword(auth, email, password);
+        return createUserWithEmailAndPassword(auth, email, password);
     };
 
     // Login with Email and Password
@@ -50,6 +51,7 @@ function AuthProvider({ children }) {
                 setUser(user);
                 setIsLogin(true);
                 setIsLoading(false);
+                console.log(user);
             } else {
                 setUser({});
                 setIsLogin(false);

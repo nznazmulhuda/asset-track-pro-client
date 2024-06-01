@@ -151,7 +151,7 @@ function Navbar(props) {
                         {isLogin ? (
                             <div className="flex items-center justify-end ml-5">
                                 <img
-                                    className="md:w-20 md:h-20 rounded-full"
+                                    className="md:w-16 md:h-16 rounded-full"
                                     src={user.photoURL}
                                     alt=""
                                 />

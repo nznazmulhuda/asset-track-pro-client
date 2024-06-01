@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { RouterProvider } from "react-router-dom";
 import AuthProvider from "./Provider/AuthProvider/AuthProvider";
 import QueryProvider from "./Provider/QueryProvider/QueryProvider";
+import UserProvider from "./Provider/UserProvider/UserProvider";
 
 axios.defaults.baseURL = import.meta.env.BASE_URL;
 axios.defaults.withCredentials = true;
@@ -17,10 +18,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <QueryProvider>
             {/* Authentication Provider */}
             <AuthProvider>
-                {/* Router Provider */}
-                <RouterProvider router={Router} />
-                {/* Toaster */}
-                <Toaster />
+                {/* User Provider */}
+                <UserProvider>
+                    {/* Router Provider */}
+                    <RouterProvider router={Router} />
+                    {/* Toaster */}
+                    <Toaster />
+                </UserProvider>
             </AuthProvider>
         </QueryProvider>
     </React.StrictMode>,

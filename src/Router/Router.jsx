@@ -53,7 +53,7 @@ const Router = createBrowserRouter([
                 element: <RequestForAsset />,
             },
             {
-                path: "profile",
+                path: "/profile",
                 element: <Profile />,
             },
             {
@@ -73,7 +73,7 @@ const Router = createBrowserRouter([
                 element: <CustomRequestList />,
             },
             {
-                path: "myEmployeeList",
+                path: "/myEmployeeList",
                 element: <MyEmployeeList />,
             },
             {

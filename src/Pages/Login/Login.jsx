@@ -5,16 +5,19 @@ import { FaGithub } from "react-icons/fa";
 import { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const { login, googleLogin, githubLogin } = useContext(AuthContext);
     const { register, handleSubmit } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         login(data.email, data.password)
             .then((res) => {
                 if (res.user) {
                     toast.success("Login Success!");
+                    navigate("/");
                 }
             })
             .catch((e) => toast.error(e.message));
@@ -25,6 +28,7 @@ function Login() {
             .then((res) => {
                 if (res.user) {
                     toast.success("Google Login Success!");
+                    navigate("/");
                 }
             })
             .catch((e) => toast.error(e.message));
@@ -35,6 +39,7 @@ function Login() {
             .then((res) => {
                 if (res.user) {
                     toast.success("Github Login Success!");
+                    navigate("/");
                 }
             })
             .catch((e) => toast.error(e.message));

@@ -9,11 +9,13 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
 } from "firebase/auth";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState({});
+    const [role, setRole] = useState("");
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -51,10 +53,14 @@ function AuthProvider({ children }) {
                 setUser(user);
                 setIsLogin(true);
                 setIsLoading(false);
-                console.log(user);
+
+                axios
+                    .get(`/role?email=${user.email}`)
+                    .then((res) => setRole(res?.data?.role));
             } else {
                 setUser({});
                 setIsLogin(false);
+                setRole("");
                 setIsLoading(false);
             }
         });
@@ -68,6 +74,7 @@ function AuthProvider({ children }) {
         user,
         isLogin,
         isLoading,
+        role,
         login,
         register,
         googleLogin,

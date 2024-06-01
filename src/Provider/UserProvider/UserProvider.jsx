@@ -5,11 +5,10 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 export const UserContext = createContext(null);
 
 function UserProvider({ children }) {
-    const { user } = useContext(AuthContext);
-    // user.role = "employee";
-    // user.role = "hrManager";
+    const { role } = useContext(AuthContext);
+
     const userInfo = {
-        user,
+        role,
     };
 
     return (

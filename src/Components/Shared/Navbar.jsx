@@ -22,12 +22,12 @@ const drawerWidth = 240;
 function Navbar(props) {
     let navItems;
     const { window } = props;
-    const { user } = React.useContext(UserContext);
-    const { isLogin, logout } = React.useContext(AuthContext);
+    const { role } = React.useContext(UserContext);
+    const { user, isLogin, logout } = React.useContext(AuthContext);
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const logo = "logo";
 
-    if (user.role === "employee") {
+    if (role === "employee") {
         navItems = [
             "Home",
             "My Assets",
@@ -35,7 +35,7 @@ function Navbar(props) {
             "Request For Asset",
             "profile",
         ];
-    } else if (user.role === "hrManager") {
+    } else if (role === "hrManager") {
         navItems = [
             "Home",
             "Asset List",

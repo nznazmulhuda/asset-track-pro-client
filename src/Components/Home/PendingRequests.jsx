@@ -27,7 +27,7 @@ function PendingRequests() {
                     <Table aria-label="striped table" stripe={stripe}>
                         <thead>
                             <tr>
-                                <th style={{ width: "80%" }}>Company Name</th>
+                                <th style={{ width: "70%" }}>Company Name</th>
                                 <th>Request</th>
                             </tr>
                         </thead>

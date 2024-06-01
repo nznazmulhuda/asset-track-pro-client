@@ -1,13 +1,14 @@
 import { useContext } from "react";
+import { UserContext } from "../../Provider/UserProvider/UserProvider";
+import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 import {
     About,
     Banner,
+    Calender,
     MonthlyRequest,
     Payment,
     PendingRequests,
 } from "../../Components/Home";
-import { UserContext } from "../../Provider/UserProvider/UserProvider";
-import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
 
 function Home() {
     let section;
@@ -27,6 +28,7 @@ function Home() {
             <>
                 <PendingRequests />
                 <MonthlyRequest />
+                <Calender />
             </>
         );
     } else if (role === "hrManager") {
@@ -46,6 +48,7 @@ function Home() {
             </>
         );
     }
+
     return (
         <>
             <div className="container mx-auto">{section}</div>

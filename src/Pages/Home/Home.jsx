@@ -1,4 +1,4 @@
-import { About, Banner } from "../../Components/Home";
+import { About, Banner, Payment } from "../../Components/Home";
 
 function Home() {
     return (
@@ -6,6 +6,7 @@ function Home() {
             <div>
                 <Banner />
                 <About />
+                <Payment />
             </div>
         </>
     );

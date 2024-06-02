@@ -2,7 +2,7 @@ function RequestForAsset() {
     return (
         <>
             <div>
-                <h1>RequestForAsset</h1>
+                <h1>Request For Asset</h1>
             </div>
         </>
     );

@@ -17,7 +17,6 @@ function Employee({ children }) {
         return toast.error("This route is for employee");
     }
 
-    navigate("/");
     return;
 }
 

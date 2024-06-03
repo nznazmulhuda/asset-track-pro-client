@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { UserContext } from "../../Provider/UserProvider/UserProvider";
-import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import { UserContext } from "../../../Provider/UserProvider/UserProvider";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 import {
     About,
     Banner,
@@ -13,7 +13,7 @@ import {
     PendingRequests,
     Pie,
     TopMostRequest,
-} from "../../Components/Home";
+} from "../../../Components/Home";
 
 function Home() {
     let section;

@@ -4,7 +4,7 @@ import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { useContext } from "react";
 import { toast } from "react-hot-toast";
-import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function Login() {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import AssetList from "../../Components/MyAssets/AssetList";
+import AssetList from "../../../Components/MyAssets/AssetList";
 function MyAssets() {
     const { register, handleSubmit } = useForm();
     const [search, setSearch] = useState("");

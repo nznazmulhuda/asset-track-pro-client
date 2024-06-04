@@ -19,6 +19,7 @@ import {
 } from "../Pages";
 import Employee from "./Employee";
 import Manager from "./Manager";
+import { Payment } from "../Pages/HRManager";
 
 const Router = createBrowserRouter([
     {
@@ -107,6 +108,14 @@ const Router = createBrowserRouter([
                 element: (
                     <Manager>
                         <MyEmployeeList />
+                    </Manager>
+                ),
+            },
+            {
+                path: "/payment",
+                element: (
+                    <Manager>
+                        <Payment />
                     </Manager>
                 ),
             },

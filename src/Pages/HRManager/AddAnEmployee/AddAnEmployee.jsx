@@ -1,48 +1,87 @@
-import { Box } from "@mui/material";
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import Heading from "../../../Components/Shared/Heading";
-import PaymentCard from "../../../Components/Shared/PaymentCard";
+import Table from "@mui/joy/Table";
+import Sheet from "@mui/joy/Sheet";
+
+function createData(memberImage, memberName, memberType) {
+    return {
+        memberImage,
+        memberName,
+        memberType,
+    };
+}
+
+const rows = [
+    createData("https://i.ibb.co/HGMZbc7/4.jpg", "Nazmul Huda", "Employeee"),
+];
 
 function AddAnEmployee() {
+    const stripe = "odd";
+    const handleAdd = () => {
+        console.log("Add an employee");
+    };
     return (
         <>
             <div className="container mx-auto">
+                <div className="flex items-center justify-between mt-5 mb-5 flex-col md:flex-row">
+                    <h1 className="text-xl md:text-2xl font-bold">
+                        Total Employee: 5
+                    </h1>
+
+                    <h1 className="text-xl md:text-2xl font-bold">
+                        Package Limit: 5
+                    </h1>
+
+                    <Link to={"/payment"}>
+                        <Button variant="outlined" color="secondary">
+                            Increase Limits
+                        </Button>
+                    </Link>
+                </div>
+
                 <Heading
-                    title={"Package"}
-                    subTitle={"all package about employee limit"}
+                    title={"Employee list"}
+                    subTitle={"employee which are not affiliated"}
                 />
 
-                {/* packaging section */}
-                <div>
-                    <Box
-                        sx={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            flexWrap: "wrap",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: 2,
-                        }}
-                    >
-                        <PaymentCard
-                            title={"Basic"}
-                            offer={"Maximum 5 employees"}
-                            amount={"$5"}
-                        />
-
-                        <PaymentCard
-                            title={"Standard"}
-                            offer={"Maximum 10 employees"}
-                            amount={"$8"}
-                        />
-
-                        <PaymentCard
-                            title={"Premium"}
-                            offer={"Maximum 20 employees"}
-                            amount={"$15"}
-                        />
-                    </Box>
-                </div>
+                <Sheet>
+                    <Table aria-label="striped table" stripe={stripe}>
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Member Image</th>
+                                <th>Member Name</th>
+                                <th>Member Type</th>
+                                <th>Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows.map((row) => (
+                                <tr key={row.memberImage}>
+                                    <td>
+                                        <input
+                                            className="w-5 h-5 md:mx-5"
+                                            type="checkbox"
+                                        />
+                                    </td>
+                                    <td>
+                                        <img
+                                            className="w-20 h-20 rounded-full"
+                                            src={row.memberImage}
+                                            alt={row.memberName}
+                                        />
+                                    </td>
+                                    <td>{row.memberImage}</td>
+                                    <td>{row.memberType}</td>
+                                    <td>
+                                        <button onClick={handleAdd}>Add</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Sheet>
             </div>
         </>
     );

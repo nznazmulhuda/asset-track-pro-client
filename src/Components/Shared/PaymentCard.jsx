@@ -10,8 +10,16 @@ import Typography from "@mui/joy/Typography";
 import Check from "@mui/icons-material/Check";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import { UserContext } from "../../Provider/UserProvider/UserProvider";
 
 function PaymentCard({ title, offer, amount }) {
+    const { role } = useContext(UserContext);
+    const handlePayment = (amount) => {
+        const price = +amount.split("$")[1];
+        console.log(price);
+    };
+
     return (
         <>
             <div>
@@ -49,6 +57,11 @@ function PaymentCard({ title, offer, amount }) {
                             variant="soft"
                             color="neutral"
                             endDecorator={<KeyboardArrowRight />}
+                            onClick={() =>
+                                role === "hrManager"
+                                    ? handlePayment(amount)
+                                    : null
+                            }
                         >
                             Start now
                         </Button>

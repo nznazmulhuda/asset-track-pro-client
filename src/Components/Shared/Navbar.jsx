@@ -43,7 +43,7 @@ function Navbar(props) {
             "All Requests",
             "Custom Request List",
             "My Employee List",
-            "addAnEmployee",
+            "add An Employee",
             "Profile",
         ];
     } else {

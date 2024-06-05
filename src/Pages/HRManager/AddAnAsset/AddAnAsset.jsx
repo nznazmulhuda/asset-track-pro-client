@@ -1,15 +1,53 @@
+import { useContext } from "react";
 import Heading from "../../../Components/Shared/Heading";
-import React from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function AddAnAsset() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
-    const onSubmit = (data) => console.log(data);
-    console.log(errors);
+    const navigate = useNavigate();
+    const { register, handleSubmit } = useForm();
+    const { user } = useContext(AuthContext);
+    const { data: userData } = useQuery({
+        queryKey: ["assets"],
+        queryFn: async () => {
+            const response = await axios.get(`/role?email=${user.email}`);
+            return response.data;
+        },
+    });
+
+    const onSubmit = (data) => {
+        const date = new Date();
+        const email = userData.email;
+        const companyName = userData.companyName;
+        const companyPhoto = userData.companyPhoto;
+        const relaseDate = date.toLocaleDateString();
+        const productName = data.productName;
+        const productType = data.productType;
+        const productQuantity = data.productQuantity;
+        const asset = {
+            email,
+            companyName,
+            companyPhoto,
+            relaseDate,
+            productName,
+            productType,
+            productQuantity,
+        };
+
+        axios
+            .post("/asset", asset)
+            .then((res) => {
+                if (res.status === 200) {
+                    toast.success("Asset saved successfully");
+                    navigate("/assetList");
+                }
+            })
+            .catch((e) => toast.error(e.message));
+    };
 
     return (
         <>

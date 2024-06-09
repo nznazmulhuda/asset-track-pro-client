@@ -26,8 +26,8 @@ function AddAnAsset() {
         const companyPhoto = userData.companyPhoto;
         const relaseDate = date.toLocaleDateString();
         const productName = data.productName;
-        const productType = data.productType;
-        const productQuantity = data.productQuantity;
+        const productType = data.productType.toLowerCase();
+        const productQuantity = +data.productQuantity;
         const asset = {
             email,
             companyName,

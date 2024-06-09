@@ -2,29 +2,55 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import AssetLIst from "../../../Components/AssetList/AssetLIst";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 function AssetsList() {
     const { register, handleSubmit } = useForm();
     const [search, setSearch] = useState("");
+    const [sort, setSort] = useState(null);
+    const [status, setStatus] = useState(null);
+    const [type, setType] = useState(null);
+    const [assets, setAssets] = useState(null);
     const handleSearch = (e) => {
         e.preventDefault();
         const search = e.target.search.value;
         console.log(search);
     };
 
+    const { data, refetch } = useQuery({
+        queryKey: ["assets"],
+        queryFn: async () => {
+            const response = await axios.get(
+                `/asset?search=${search}&sort=${sort}&type=${type}&status=${status}`,
+            );
+            return response;
+        },
+    });
+
+    useEffect(() => {
+        setAssets(data?.data);
+    }, [data]);
     // search
     useEffect(() => {
-        // console.log(search);
-    }, [search]);
+        if (search?.length === 0) {
+            setSearch(null);
+        }
+        refetch();
+    }, [search, sort, status, type, refetch, handleSubmit]);
 
     // sorting
     const onSort = (data) => {
-        console.log(data);
+        setSort(data.sort);
+        setStatus(data.status);
+        setType(data.type);
     };
 
     // filter
     const onSubmit = (data) => {
-        console.log(data);
+        setSort(data.sort);
+        setStatus(data.status);
+        setType(data.type);
     };
 
     return (
@@ -40,6 +66,7 @@ function AssetsList() {
                             type="text"
                             name="search"
                             required
+                            defaultValue={null}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search by name"
                             className="outline-none py-2 px-4 w-full"
@@ -85,11 +112,11 @@ function AssetsList() {
                         >
                             <select
                                 className="text-lg border py-2 px-4 rounded-lg"
-                                {...register("request")}
+                                {...register("status")}
                             >
-                                <option value="null">Request</option>
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
+                                <option value="null">Status</option>
+                                <option value="available">Available</option>
+                                <option value="outOfStock">Out of Stock</option>
                             </select>
 
                             <select
@@ -113,7 +140,7 @@ function AssetsList() {
 
                 {/* Asset list */}
                 <div>
-                    <AssetLIst />
+                    <AssetLIst assets={assets} />
                 </div>
             </div>
         </>

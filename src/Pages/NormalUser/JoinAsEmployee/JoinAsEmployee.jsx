@@ -22,7 +22,10 @@ function JoinAsEmployee() {
     const onSubmit = (data) => {
         const email = data.email;
         const role = "employee";
-        const user = { email, role };
+        const company = "notAffiliated";
+        const photo = data.photo;
+        const name = data.fullName;
+        const user = { email, role, company, photo, name };
 
         // const image_hosting_api = `https://api.imgbb.com/1/upload?key=${
         //     import.meta.env.VITE_IMGBB_KEY
@@ -63,7 +66,10 @@ function JoinAsEmployee() {
             .then((res) => {
                 const email = res.user.email;
                 const role = "employee";
-                const user = { email, role };
+                const company = "notAffiliated";
+                const photo = res.user.photoURL;
+                const name = res.user.displayName;
+                const user = { email, role, company, photo, name };
                 if (res) {
                     axios.post("/user", user).then((res) => {
                         if (res.data.insertedId) {
@@ -81,7 +87,10 @@ function JoinAsEmployee() {
             .then((res) => {
                 const email = res.user.email;
                 const role = "employee";
-                const user = { email, role };
+                const company = "notAffiliated";
+                const photo = res.user.photoURL;
+                const name = res.user.displayName;
+                const user = { email, role, company, photo, name };
                 if (res) {
                     axios.post("/user", user).then((res) => {
                         if (res.data.insertedId) {

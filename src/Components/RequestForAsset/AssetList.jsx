@@ -21,32 +21,28 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-function createData(assetName, assetType, availability, request) {
+function createData(assetName, assetType, availability, request, companyEmail) {
     return {
         assetName,
         assetType,
         availability,
         request,
+        companyEmail,
     };
 }
 
 function AssetList({ assets }) {
     const stripe = "odd";
     const [open, setOpen] = useState(false);
-    const [requestId, setRequestId] = useState("");
-    const handleOpen = (id) => {
+    const [rowData, setRowData] = useState({});
+    const handleOpen = (row) => {
         setOpen(true);
-        setRequestId(id);
+        setRowData(row);
     };
     const handleClose = () => setOpen(false);
     const { user } = useContext(AuthContext);
     const [rows, setRows] = useState([]);
 
-    // const rows = [
-    //     createData("ABC Company", "Returnable", "Available", "Request"),
-    //     createData("EFG Company", "Non-Returnable", "Out of Stock", "Request"),
-    //     createData("HIJ Company", "Returnable", "Available", "Request"),
-    // ];
     useEffect(() => {
         const data = assets?.map((asset) =>
             createData(
@@ -54,6 +50,7 @@ function AssetList({ assets }) {
                 asset.productType,
                 asset.productQuantity,
                 asset._id,
+                asset.email,
             ),
         );
         setRows(data);
@@ -66,14 +63,16 @@ function AssetList({ assets }) {
         const date = time.toLocaleDateString();
         const email = user.email;
         const name = user.displayName;
-        const id = requestId;
-        const data = { note, date, email, id, name };
+        const status = "pending";
+        const data = { note, date, email, name, rowData, status };
 
         // backend
         axios
             .post(`/request`, data)
             .then((res) => {
-                console.log(res.data);
+                if (res.data.insertedId) {
+                    toast.success("Request sent successfully");
+                }
             })
             .catch((err) => toast.error(err.message));
         e.target.reset();
@@ -103,16 +102,12 @@ function AssetList({ assets }) {
                                     <td>{row.availability}</td>
                                     <td>
                                         <button
-                                            onClick={() =>
-                                                handleOpen(row.request)
-                                            }
+                                            onClick={() => handleOpen(row)}
                                             disabled={
-                                                row.availability ===
-                                                    "Out of Stock" && true
+                                                row.availability === 0 && true
                                             }
                                             className={`${
-                                                row.availability ===
-                                                    "Out of Stock" &&
+                                                row.availability === 0 &&
                                                 "cursor-not-allowed"
                                             }`}
                                         >

@@ -2,6 +2,7 @@ import Heading from "../Shared/Heading";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 function createData(
     assetName,
@@ -44,12 +45,12 @@ function AssetList({ assets }) {
         setRows(
             assetData?.map((item) =>
                 createData(
-                    item.rowData.assetName,
-                    item.rowData.assetType,
-                    item.date,
-                    item?.approveDate,
-                    item.status,
-                    item._id,
+                    item?.rowData.assetName,
+                    item?.rowData.assetType,
+                    item?.date,
+                    item?.approvedTime,
+                    item?.status,
+                    item?._id,
                 ),
             ),
         );
@@ -112,5 +113,9 @@ function AssetList({ assets }) {
         </>
     );
 }
+
+AssetList.propTypes = {
+    assets: PropTypes.array,
+};
 
 export default AssetList;

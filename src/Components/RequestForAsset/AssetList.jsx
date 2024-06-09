@@ -4,8 +4,11 @@ import Sheet from "@mui/joy/Sheet";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const style = {
     position: "absolute",
@@ -27,18 +30,34 @@ function createData(assetName, assetType, availability, request) {
     };
 }
 
-function AssetList() {
+function AssetList({ assets }) {
     const stripe = "odd";
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const [requestId, setRequestId] = useState("");
+    const handleOpen = (id) => {
+        setOpen(true);
+        setRequestId(id);
+    };
     const handleClose = () => setOpen(false);
     const { user } = useContext(AuthContext);
+    const [rows, setRows] = useState([]);
 
-    const rows = [
-        createData("ABC Company", "Returnable", "Available", "Request"),
-        createData("EFG Company", "Non-Returnable", "Out of Stock", "Request"),
-        createData("HIJ Company", "Returnable", "Available", "Request"),
-    ];
+    // const rows = [
+    //     createData("ABC Company", "Returnable", "Available", "Request"),
+    //     createData("EFG Company", "Non-Returnable", "Out of Stock", "Request"),
+    //     createData("HIJ Company", "Returnable", "Available", "Request"),
+    // ];
+    useEffect(() => {
+        const data = assets?.map((asset) =>
+            createData(
+                asset.productName,
+                asset.productType,
+                asset.productQuantity,
+                asset._id,
+            ),
+        );
+        setRows(data);
+    }, [assets]);
 
     const handleRequest = (e) => {
         e.preventDefault();
@@ -46,10 +65,17 @@ function AssetList() {
         const time = new Date();
         const date = time.toLocaleDateString();
         const email = user.email;
-        const data = { note, date, email };
-        console.log(data);
+        const name = user.displayName;
+        const id = requestId;
+        const data = { note, date, email, id, name };
 
         // backend
+        axios
+            .post(`/request`, data)
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => toast.error(err.message));
         e.target.reset();
         handleClose();
     };
@@ -70,14 +96,16 @@ function AssetList() {
                             </tr>
                         </thead>
                         <tbody>
-                            {rows.map((row) => (
-                                <tr key={row.assetName}>
+                            {rows?.map((row) => (
+                                <tr key={row.request}>
                                     <td>{row.assetName}</td>
                                     <td>{row.assetType}</td>
                                     <td>{row.availability}</td>
                                     <td>
                                         <button
-                                            onClick={handleOpen}
+                                            onClick={() =>
+                                                handleOpen(row.request)
+                                            }
                                             disabled={
                                                 row.availability ===
                                                     "Out of Stock" && true
@@ -88,7 +116,7 @@ function AssetList() {
                                                 "cursor-not-allowed"
                                             }`}
                                         >
-                                            {row.request}
+                                            Request
                                         </button>
                                     </td>
                                 </tr>
@@ -128,5 +156,9 @@ function AssetList() {
         </>
     );
 }
+
+AssetList.propTypes = {
+    assets: PropTypes.array,
+};
 
 export default AssetList;

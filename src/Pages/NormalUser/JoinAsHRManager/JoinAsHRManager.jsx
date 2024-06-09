@@ -17,7 +17,8 @@ function JoinAsHRManager() {
         const role = "hrManager";
         const companyPhoto = data.companyLogo;
         const companyName = data.companyName;
-        const user = { email, role, companyPhoto, companyName };
+        const employee = [];
+        const user = { email, role, companyPhoto, companyName, employee };
 
         // const image_hosting_api = `https://api.imgbb.com/1/upload?key=${
         //     import.meta.env.VITE_IMGBB_KEY

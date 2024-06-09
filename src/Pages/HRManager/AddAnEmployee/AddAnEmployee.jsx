@@ -1,12 +1,12 @@
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Heading from "../../../Components/Shared/Heading";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
 import { useQuery } from "@tanstack/react-query";
-
+import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function createData(memberImage, memberName, memberType, _id) {
     return {
@@ -24,13 +24,14 @@ function createData(memberImage, memberName, memberType, _id) {
 function AddAnEmployee() {
     const stripe = "odd";
     const [rows, setRows] = useState([]);
-
+    const navigate = useNavigate();
     const { data } = useQuery({
         queryKey: ["employeeList"],
         queryFn: async () => {
             return await axios.get("/employee");
         },
     });
+    const [em, setEm] = useState([]);
 
     useEffect(() => {
         const employees = data?.data;
@@ -45,19 +46,38 @@ function AddAnEmployee() {
         setRows(newRows);
     }, [data]);
 
-    const handleAdd = (id) => {
-        console.log("Add an employee" + " " + id);
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleAdd = useCallback((id) => {
+        axios
+            .get(`/employee?id=${id}`)
+            .then((res) => {
+                axios
+                    .put(`/user`, res.data)
+                    .then((res) => {
+                        res.data.matchedCount > 0 &&
+                            toast.success("Employee added successfully");
+                        navigate("/myEmployeeList");
+                    })
+                    .catch((err) => toast.error(err.message));
+            })
+            .catch((err) => toast.error(err.message));
+    });
+
+    useEffect(() => {
+        axios
+            .get(`/user?email=${"akhirulislam@gmail.com"}`)
+            .then((res) => setEm(res.data.employee));
+    }, [handleAdd]);
     return (
         <>
             <div className="container mx-auto">
                 <div className="flex items-center justify-between mt-5 mb-5 flex-col md:flex-row">
                     <h1 className="text-xl md:text-2xl font-bold">
-                        Total Employee: 5
+                        Total Employee: {em.length}
                     </h1>
 
                     <h1 className="text-xl md:text-2xl font-bold">
-                        Package Limit: 5
+                        Package Limit: {5 - em.length}
                     </h1>
 
                     <Link to={"/payment"}>
@@ -103,9 +123,19 @@ function AddAnEmployee() {
                                     <td>{row.memberType}</td>
                                     <td>
                                         <button
+                                            disabled={
+                                                em?.find(
+                                                    (item) =>
+                                                        item._id === row._id,
+                                                ) && true
+                                            }
                                             onClick={() => handleAdd(row._id)}
                                         >
-                                            Add
+                                            {em?.find(
+                                                (item) => item._id === row._id,
+                                            )
+                                                ? "Added"
+                                                : "Add"}
                                         </button>
                                     </td>
                                 </tr>

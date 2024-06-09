@@ -59,21 +59,27 @@ function AllRequests() {
         setRow(
             requestAsset?.map((item) =>
                 createData(
-                    item.rowData.assetName,
-                    item.rowData.assetType,
-                    item.email,
-                    item.name,
-                    item.date,
-                    item.note,
-                    item.status,
-                    item._id,
+                    item?.rowData?.assetName,
+                    item?.rowData?.assetType,
+                    item?.email,
+                    item?.name,
+                    item?.date,
+                    item?.note,
+                    item?.status,
+                    item?._id,
                 ),
             ),
         );
     }, [data]);
 
     const handleApprove = (id) => {
-        const s = { status: "accepted" };
+        const date = new Date();
+        const time = date.toLocaleDateString();
+        const s = {
+            status: "accepted",
+            approvedTime: time,
+        };
+        console.log(s);
         axios
             .put(`/request?email=${userData.email}&id=${id}&edit=${true}`, s)
             .then((res) => {
@@ -124,13 +130,13 @@ function AllRequests() {
                             <tbody>
                                 {row?.map((row) => (
                                     <tr key={row._id}>
-                                        <td>{row.assetName}</td>
-                                        <td>{row.assetType}</td>
-                                        <td>{row.emailOfRequester}</td>
-                                        <td>{row.nameOfRequester}</td>
-                                        <td>{row.requestDate}</td>
-                                        <td>{row.additionalNote}</td>
-                                        <td>{row.status}</td>
+                                        <td>{row?.assetName}</td>
+                                        <td>{row?.assetType}</td>
+                                        <td>{row?.emailOfRequester}</td>
+                                        <td>{row?.nameOfRequester}</td>
+                                        <td>{row?.requestDate}</td>
+                                        <td>{row?.additionalNote}</td>
+                                        <td>{row?.status}</td>
                                         <td>
                                             <Button
                                                 onClick={() =>

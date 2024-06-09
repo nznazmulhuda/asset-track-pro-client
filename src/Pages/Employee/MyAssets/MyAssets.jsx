@@ -1,22 +1,48 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import AssetList from "../../../Components/MyAssets/AssetList";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 function MyAssets() {
+    const { user } = useContext(AuthContext);
     const { register, handleSubmit } = useForm();
     const [search, setSearch] = useState("");
+    const [status, setStatus] = useState(null);
+    const [type, setType] = useState(null);
+    const [assets, setAssets] = useState(null);
     const handleSearch = (e) => {
         e.preventDefault();
         const search = e.target.search.value;
         console.log(search);
     };
 
-    useEffect(() => {
-        // console.log(search);
-    }, [search]);
+    const { data, refetch } = useQuery({
+        queryKey: ["assets"],
+        queryFn: async () => {
+            const response = await axios.get(
+                `/request?search=${search}&type=${type}&status=${status}&clientMail=${user.email}`,
+            );
+            return response;
+        },
+    });
 
+    useEffect(() => {
+        setAssets(data?.data);
+    }, [data]);
+
+    useEffect(() => {
+        if (search?.length === 0) {
+            setSearch(null);
+        }
+        refetch();
+    }, [search, status, type, refetch, handleSubmit]);
+
+    // filter
     const onSubmit = (data) => {
-        console.log(data);
+        setStatus(data.status);
+        setType(data.type);
     };
 
     return (
@@ -27,12 +53,13 @@ function MyAssets() {
                     {/* Search field */}
                     <form
                         onSubmit={handleSearch}
-                        className="flex items-center gap-3 border px-3 rounded-md border-primary md:w-2/5 justify-between"
+                        className="flex items-center gap-3 border px-3 rounded-md border-primary md:w-1/5 justify-between"
                     >
                         <input
                             type="text"
                             name="search"
                             required
+                            defaultValue={null}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search by name"
                             className="outline-none py-2 px-4 w-full"
@@ -52,9 +79,9 @@ function MyAssets() {
                         >
                             <select
                                 className="text-lg border py-2 px-4 rounded-lg"
-                                {...register("request")}
+                                {...register("status")}
                             >
-                                <option value="null">Request</option>
+                                <option value="null">Status</option>
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
                             </select>
@@ -80,7 +107,7 @@ function MyAssets() {
 
                 {/* Asset List */}
                 <div>
-                    <AssetList />
+                    <AssetList assets={assets} />
                 </div>
             </div>
         </>

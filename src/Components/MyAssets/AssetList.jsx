@@ -1,6 +1,7 @@
 import Heading from "../Shared/Heading";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
+import { useEffect, useState } from "react";
 
 function createData(
     assetName,
@@ -20,33 +21,6 @@ function createData(
     };
 }
 
-const rows = [
-    createData(
-        "ABC Company",
-        "Returnable",
-        "22/01/2024",
-        "",
-        "Pending",
-        "Cancle",
-    ),
-    createData(
-        "EFG Company",
-        "Non-Returnable",
-        "22/01/2024",
-        "25/01/2024",
-        "Approved",
-        "Print",
-    ),
-    createData(
-        "HIJ Company",
-        "Returnable",
-        "22/01/2024",
-        "25/01/2024",
-        "Approved",
-        "Return",
-    ),
-];
-
 const handleCancle = () => {
     console.log("Cancle");
 };
@@ -60,8 +34,27 @@ const handleReturn = () => {
     console.log("Return");
 };
 
-function AssetList() {
+function AssetList({ assets }) {
     const stripe = "odd";
+
+    const [rows, setRows] = useState([]);
+
+    useEffect(() => {
+        const assetData = assets;
+        setRows(
+            assetData?.map((item) =>
+                createData(
+                    item.rowData.assetName,
+                    item.rowData.assetType,
+                    item.date,
+                    item?.approveDate,
+                    item.status,
+                    item._id,
+                ),
+            ),
+        );
+    }, [assets]);
+
     return (
         <>
             <div>
@@ -79,9 +72,10 @@ function AssetList() {
                                 <th>Action</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            {rows.map((row) => (
-                                <tr key={row.assetName}>
+                            {rows?.map((row) => (
+                                <tr key={row.action}>
                                     <td>{row.assetName}</td>
                                     <td>{row.assetType}</td>
                                     <td>{row.requestDate}</td>
@@ -97,7 +91,16 @@ function AssetList() {
                                                     : handleReturn
                                             }
                                         >
-                                            {row.action}
+                                            {row.requestStatus === "pending" &&
+                                                "Cancle"}
+                                            {row.requestStatus === "accepted" &&
+                                                row.assetType !==
+                                                    "returnable" &&
+                                                "Print"}
+                                            {row.requestStatus === "accepted" &&
+                                                row.assetType ===
+                                                    "returnable" &&
+                                                "Return"}
                                         </button>
                                     </td>
                                 </tr>

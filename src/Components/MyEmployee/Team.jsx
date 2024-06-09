@@ -1,9 +1,26 @@
 import PropType from "prop-types";
 import { Button } from "@mui/material";
+import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider/AuthProvider";
+import toast from "react-hot-toast";
 
-function Team({ memberName, memberPic, memberType }) {
-    const handleRemoveMember = () => {
-        console.log("Remove Member");
+function Team({ memberName, memberPic, memberType, member }) {
+    const { user } = useContext(AuthContext);
+    const handleRemoveMember = (_id) => {
+        axios.get(`/user?email=${user.email}`).then((res) => {
+            if (res.data) {
+                const oldData = res?.data?.employee;
+                const newData = oldData.filter((item) => item._id === _id);
+                console.log({ newData, oldData });
+                axios
+                    .put(`/user?email=${user.email}&modify=${true}`, newData)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => toast.error(err.message));
+            }
+        });
     };
 
     return (
@@ -26,12 +43,12 @@ function Team({ memberName, memberPic, memberType }) {
                         {memberType}
                     </h3>
 
-                    {memberType === "Employee" && (
+                    {memberType === "employee" && (
                         <Button
                             variant="contained"
                             color="secondary"
                             style={{ marginTop: 10 }}
-                            onClick={handleRemoveMember}
+                            onClick={() => handleRemoveMember(member._id)}
                         >
                             Remove From Team
                         </Button>
@@ -46,6 +63,7 @@ Team.propTypes = {
     memberName: PropType.string,
     memberPic: PropType.string,
     memberType: PropType.string,
+    member: PropType.object,
 };
 
 export default Team;

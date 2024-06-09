@@ -6,7 +6,8 @@ import Sheet from "@mui/joy/Sheet";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 
 function createData(memberImage, memberName, memberType, _id) {
     return {
@@ -32,7 +33,8 @@ function AddAnEmployee() {
         },
     });
     const [em, setEm] = useState([]);
-
+    const { user } = useContext(AuthContext);
+    // console.log(user);
     useEffect(() => {
         const employees = data?.data;
         const newRows = employees?.map((employee) =>
@@ -65,9 +67,9 @@ function AddAnEmployee() {
 
     useEffect(() => {
         axios
-            .get(`/user?email=${"akhirulislam@gmail.com"}`)
+            .get(`/user?email=${user.email}`)
             .then((res) => setEm(res.data.employee));
-    }, [handleAdd]);
+    }, [handleAdd, user.email]);
     return (
         <>
             <div className="container mx-auto">

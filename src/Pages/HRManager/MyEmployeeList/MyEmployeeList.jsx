@@ -1,7 +1,25 @@
+import { useContext, useEffect, useState } from "react";
 import Team from "../../../Components/MyEmployee/Team";
 import Heading from "../../../Components/Shared/Heading";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { AuthContext } from "../../../Provider/AuthProvider/AuthProvider";
 
 function MyEmployeeList() {
+    const [members, setMembers] = useState([]);
+    const { user } = useContext(AuthContext);
+    const { data } = useQuery({
+        queryKey: ["employees"],
+        queryFn: async () => {
+            return await axios.get(`/user?email=${user.email}`);
+        },
+    });
+
+    useEffect(() => {
+        const datas = data?.data?.employee;
+        setMembers(datas);
+    }, [data]);
+
     return (
         <div className="container mx-auto">
             <Heading
@@ -10,17 +28,18 @@ function MyEmployeeList() {
             />
 
             <div className="flex items-center md:gap-16 justify-center flex-wrap mt-5">
-                <Team
-                    memberName={"Nazmul Huda"}
-                    memberPic={"https://i.ibb.co/HGMZbc7/4.jpg"}
-                    memberType={"Employee"}
-                />
-
-                <Team
-                    memberName={"Nazmul Huda"}
-                    memberPic={"https://i.ibb.co/HGMZbc7/4.jpg"}
-                    memberType={"Admin"}
-                />
+                {members &&
+                    members?.map((member) => {
+                        return (
+                            <Team
+                                key={member._id}
+                                memberName={member.name}
+                                memberPic={member.photo}
+                                memberType={member.role}
+                                member={member}
+                            />
+                        );
+                    })}
             </div>
         </div>
     );
